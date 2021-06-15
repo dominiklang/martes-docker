@@ -1,0 +1,32 @@
+version: "3"
+services:
+
+  postgres:
+    image: martes-db
+    build: 
+        context: .
+        dockerfile: Dockerfile
+    restart: unless-stopped
+    volumes:
+      - db:/var/lib/postgresql/data
+
+  wikijs:
+    image: requarks/wiki:2
+    depends_on:
+      - postgres
+    environment:
+      DB_TYPE: postgres
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: wikijs
+      DB_PASS: wikijsrocks
+      DB_NAME: wiki
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - wiki:/wiki/data/content
+
+volumes:
+  db:
+  wiki:
