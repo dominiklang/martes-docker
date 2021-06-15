@@ -1,16 +1,26 @@
 version: "3"
 services:
 
+  frontend:
+    container_name: martes-frontend
+    build: 
+        context: https://github.com/picturestone/martes-backend.git#develop
+        dockerfile: Dockerfile
+    ports: 
+      - 7000:7000
+
   postgres:
-    image: martes-db
+    container_name: martes-postgres
+    image: martes-postgres
     build: 
         context: .
         dockerfile: Dockerfile
     restart: unless-stopped
     volumes:
-      - db:/var/lib/postgresql/data
+      - postgres:/var/lib/postgresql/data
 
-  wikijs:
+  wiki:
+    container_name: martes-wiki
     image: requarks/wiki:2
     depends_on:
       - postgres
@@ -28,5 +38,5 @@ services:
       - wiki:/wiki/data/content
 
 volumes:
-  db:
+  postgres:
   wiki:
