@@ -3,6 +3,16 @@ services:
 
   frontend:
     container_name: martes-frontend
+    image: martes-frontend
+    build: 
+        context: https://github.com/StephanPillhofer/martes-frontend.git#develop
+        dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+
+  backend:
+    container_name: martes-backend
+    image: martes-backend
     build: 
         context: https://github.com/picturestone/martes-backend.git#develop
         dockerfile: Dockerfile
